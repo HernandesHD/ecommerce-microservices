@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +43,13 @@ public class ProductService {
     public ProductDTO save(ProductDTO productDTO) {
         Product product = productRepository.save(Product.convert(productDTO));
         return ProductDTO.convert(product);
+    }
+
+    public void delete(Long productId) {
+        Optional<Product> productOptional = productRepository.findById(productId);
+        if (productOptional.isPresent()) {
+            productRepository.delete(productOptional.get());
+        }
     }
 
 }
