@@ -23,4 +23,25 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<ProductDTO> getProductsByCategory(Long categoryId) {
+        List<Product> products = productRepository.getProductByCategory(categoryId);
+        return products
+                .stream()
+                .map(ProductDTO::convert)
+                .collect(Collectors.toList());
+    }
+
+    public ProductDTO findByProductIdentifier(String productIdentifier) {
+        Product product = productRepository.findByProductIdentifier(productIdentifier);
+        if (product != null) {
+            return ProductDTO.convert(product);
+        }
+        return null;
+    }
+
+    public ProductDTO save(ProductDTO productDTO) {
+        Product product = productRepository.save(Product.convert(productDTO));
+        return ProductDTO.convert(product);
+    }
+
 }
