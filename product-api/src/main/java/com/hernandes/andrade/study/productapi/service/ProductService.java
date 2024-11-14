@@ -4,6 +4,8 @@ import com.hernandes.andrade.study.productapi.dto.ProductDTO;
 import com.hernandes.andrade.study.productapi.model.Product;
 import com.hernandes.andrade.study.productapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,6 +65,11 @@ public class ProductService {
             product.setPrice(productDTO.getPrice());
         }
         return ProductDTO.convert(productRepository.save(product));
+    }
+
+    public Page<ProductDTO> getAllPage(Pageable pageable) {
+        Page<Product> products = productRepository.findAll(pageable);
+        return products.map(ProductDTO::convert);
     }
 
 }
