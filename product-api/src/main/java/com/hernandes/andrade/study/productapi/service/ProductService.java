@@ -52,4 +52,17 @@ public class ProductService {
         }
     }
 
+    public ProductDTO editProduct(Long id, ProductDTO productDTO) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (productDTO.getName() != null || !productDTO.getName().isEmpty()) {
+            product.setName(productDTO.getName());
+        }
+        if (productDTO.getPrice() != null) {
+            product.setPrice(productDTO.getPrice());
+        }
+        return ProductDTO.convert(productRepository.save(product));
+    }
+
 }
